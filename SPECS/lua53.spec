@@ -23,6 +23,8 @@ Source4:        luaconf.h
 Patch9:		lua-5.3.3-upstream-bug-1.patch
 # https://www.lua.org/bugs.html#5.3.3-2
 Patch10:	lua-5.3.3-upstream-bug-2.patch
+# https://www.lua.org/bugs.html#5.3.3-3
+Patch11:	lua-5.3.3-upstream-bug-3.patch
 
 BuildRequires:  readline-devel
 Provides:       lua(abi) = %{major_version}
@@ -67,6 +69,7 @@ cp %{SOURCE1} .
 #%patch4 -p1 -z .configure-compat-all
 %patch9 -p1 -b .crashfix
 %patch10 -p1 -b .readpast
+%patch11 -p1 -b .manyconsts
 #autoreconf -i
 
 %build
