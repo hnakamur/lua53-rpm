@@ -14,7 +14,8 @@ RUN source_urls=`rpmspec -P ./SPECS/lua53.spec | awk '/^Source[0-9]*:\s*http/ {p
       (cd ./SOURCES && if [ ! -f ${source_file} ]; then curl -sLO ${source_url}; fi); \
     done
 
-#RUN yum install -y epel-release \
-# && yum-builddep -y ./SPECS/lua53.spec \
-# && rpmbuild -bb ./SPECS/lua53.spec \
-# && yum install -y ./RPMS/x86_64/*.rpm
+RUN yum install -y epel-release \
+ && yum-builddep -y ./SPECS/lua53.spec
+
+RUN rpmbuild -bb ./SPECS/lua53.spec
+RUN yum install -y ./RPMS/x86_64/*.rpm
