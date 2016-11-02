@@ -41,10 +41,11 @@ configuration, scripting, and rapid prototyping.
 Summary:        Development files for %{name}
 Group:          System Environment/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       pkgconfig
+#Requires:       pkgconfig
 
 %description devel
 This package contains development files for %{name}.
+NOTE: This package does not contain the shared library for %{name}.
 
 %package static
 Summary:        Static library for %{name}
@@ -72,23 +73,23 @@ cp %{SOURCE1} .
 make %{?_smp_mflags} linux
 
 %check
-#cd ./lua-%{version}-tests/
-#
-## Dont skip the fully portable or ram-hungry tests:
-## sed -i.orig -e '
-##     /attrib.lua/d;
-##     /files.lua/d;
-##     /db.lua/d;
-##     /errors.lua/d;
-##     ' all.lua
-## LD_LIBRARY_PATH=$RPM_BUILD_ROOT/%{_libdir} $RPM_BUILD_ROOT/%{_bindir}/lua all.lua
-#
-## Removing tests that fail under mock/koji
-#sed -i.orig -e '
-#    /db.lua/d;
-#    /errors.lua/d;
-#    ' all.lua
-#LD_LIBRARY_PATH=$RPM_BUILD_ROOT/%{_libdir} $RPM_BUILD_ROOT/%{_bindir}/lua -e"_U=true" all.lua
+cd ./lua-%{version}-tests/
+
+# Dont skip the fully portable or ram-hungry tests:
+# sed -i.orig -e '
+#     /attrib.lua/d;
+#     /files.lua/d;
+#     /db.lua/d;
+#     /errors.lua/d;
+#     ' all.lua
+# LD_LIBRARY_PATH=$RPM_BUILD_ROOT/%{_libdir} $RPM_BUILD_ROOT/%{_bindir}/lua all.lua
+
+# Removing tests that fail under mock/koji
+sed -i.orig -e '
+    /db.lua/d;
+    /errors.lua/d;
+    ' all.lua
+LD_LIBRARY_PATH=$RPM_BUILD_ROOT/%{_libdir} $RPM_BUILD_ROOT/%{_bindir}/lua -e"_U=true" all.lua
 
 %install
 set -x
@@ -120,7 +121,6 @@ install -p -m 644 %{SOURCE4} %{buildroot}%{_includedir}/luaconf.h
 %files devel
 %{_includedir}/l*.h
 %{_includedir}/l*.hpp
-%{_libdir}/liblua.a
 #%{_libdir}/pkgconfig/*.pc
 
 %files static
