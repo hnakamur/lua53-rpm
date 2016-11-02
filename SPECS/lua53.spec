@@ -15,7 +15,7 @@ Source3:        http://www.lua.org/tests/lua-%{version}-tests.tar.gz
 # multilib
 Source4:        luaconf.h
 #Patch0:         %{name}-5.3.0-autotoolize.patch
-#Patch1:         %{name}-5.3.0-idsize.patch
+Patch1:         lua-5.3.3-idsize.patch
 #Patch2:         %%{name}-5.3.0-luac-shared-link-fix.patch
 #Patch3:         %{name}-5.2.2-configure-linux.patch
 #Patch4:         %{name}-5.3.0-configure-compat-module.patch
@@ -63,7 +63,7 @@ This package contains the static version of liblua for %{name}.
 cp %{SOURCE1} .
 #mv src/luaconf.h src/luaconf.h.template.in
 #%patch0 -p1 -E -z .autoxxx
-#%patch1 -p1 -z .idsize
+%patch1 -p1 -z .idsize
 #%% patch2 -p1 -z .luac-shared
 #%patch3 -p1 -z .configure-linux
 #%patch4 -p1 -z .configure-compat-all
@@ -133,6 +133,8 @@ install -p -m 644 %{SOURCE4} %{buildroot}%{_includedir}/luaconf.h
 %changelog
 * Thu Nov  3 2016 Hiroaki Nakamura <hnakamur@gmail.com> - 5.3.3-1
 - Remove bootstrap
+- Stop using autotools
+- apply fixes for upstream bug 3
 
 * Mon Jul 25 2016 Tom Callaway <spot@fedoraproject.org> - 5.3.3-2
 - apply fixes for upstream bug 1 & 2

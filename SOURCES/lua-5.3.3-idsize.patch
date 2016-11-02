@@ -1,0 +1,12 @@
+diff -up lua-5.3.3/src/luaconf.h.idsize lua-5.3.3/src/luaconf.h
+--- lua-5.3.3/src/luaconf.h.idsize      2016-11-02 19:19:03.846649243 +0000
++++ lua-5.3.3/src/luaconf.h     2016-11-02 19:12:49.831743641 +0000
+@@ -722,7 +722,7 @@
+ @@ of a function in debug information.
+ ** CHANGE it if you want a different size.
+ */
+-#define LUA_IDSIZE	60
++#define LUA_IDSIZE	512
+ 
+ 
+ /*
