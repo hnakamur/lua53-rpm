@@ -113,6 +113,14 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/lua/%{major_version}
 mv %{buildroot}%{_includedir}/luaconf.h %{buildroot}%{_includedir}/luaconf-%{_arch}.h
 install -p -m 644 %{SOURCE4} %{buildroot}%{_includedir}/luaconf.h
 
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d
+echo %{_libdir} > $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/lua%{major_version}.conf
+
+# Automatically add appropriate dependencies on /sbin/ldconfig to the packa
+# https://fedoraproject.org/wiki/Packaging:Scriptlets#Shared_libraries
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
 %files
 %{!?_licensedir:%global license %%doc}
 %license mit.txt
@@ -121,6 +129,7 @@ install -p -m 644 %{SOURCE4} %{buildroot}%{_includedir}/luaconf.h
 %{_bindir}/lua
 %{_bindir}/luac
 %{_libdir}/liblua-%{major_version}.so
+%{_sysconfdir}/ld.so.conf.d/lua%{major_version}.conf
 %{_mandir}/man1/lua*.1*
 %dir %{_libdir}/lua
 %dir %{_libdir}/lua/%{major_version}
@@ -139,6 +148,7 @@ install -p -m 644 %{SOURCE4} %{buildroot}%{_includedir}/luaconf.h
 
 %changelog
 * Thu Nov  3 2016 Hiroaki Nakamura <hnakamur@gmail.com> - 5.3.3-3
+- Change prefix to /opt/lua-%{major_version}
 - Remove bootstrap
 - apply fixes for upstream bug 3
 
